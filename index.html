@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Uploader simple</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    form { margin-top: 20px; }
+    input[type="file"] { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Subir archivo</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" id="fileInput" required />
+    <button type="submit">Subir</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      status.textContent = "Subiendo...";
+
+      try {
+        const res = await fetch("https://TU_DOMINIO_O_IP/upload", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        status.textContent = `✅ Subido con éxito: ${data.file.url}`;
+      } catch (err) {
+        status.textContent = "❌ Error al subir el archivo.";
+      }
+    });
+  </script>
+</body>
+</html>
