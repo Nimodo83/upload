@@ -34,7 +34,7 @@
       status.textContent = "Subiendo...";
 
       try {
-        const res = await fetch("https://panel.cuervo-negocios.space/server/ecba6306", {
+        const res = await fetch("https://panel.cuervo-negocios.space:25500/upload", {
           method: "POST",
           body: formData
         });
